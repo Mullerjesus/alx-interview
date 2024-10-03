@@ -1,22 +1,21 @@
 #!/usr/bin/python3
-"""
-pascal_triangle
-"""
-def pascal_triangle(n):  
-    if n <= 0:  
-        return []  
-    
-    triangle = [[1]]  # Start with the first row  
+'''pascal triangle'''
 
-    for i in range(1, n):  # Loop to create each subsequent row  
-        row = [1]  # First element is always 1  
-        last_row = triangle[i - 1]  # Get the last row already created  
 
-        # Calculate the inner elements of the triangle row  
-        for j in range(1, i):  
-            row.append(last_row[j - 1] + last_row[j])  
-        
-        row.append(1)  # Last element is always 1  
-        triangle.append(row)  # Add the new row to the triangle  
-    
+def pascal_triangle(n):
+    '''
+    returns an integers representing the Pascal’s triangle
+    arguments
+             n: number of pascal triangle a user wants
+    '''
+    triangle = []
+    if n == 0:
+        return lists
+    for i in range(n):
+        triangle.append([])
+        triangle[i].append(1)
+        if (i > 0):
+            for j in range(1, i):
+        triangle[i].append(triangle[i - 1][j - 1] + triangle[i - 1][j])
+            triangle[i].append(1)
     return triangle
