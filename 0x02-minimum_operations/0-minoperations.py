@@ -25,5 +25,4 @@ if __name__ == "__main__":
     print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))  # Output: 7  
 
     n = 9  
-    print("Min # of operations to reach {} char: {}".format(n, minOperations(n))) 
-
+    print("Min # of operations to reach {} char: {}".format(n, minOperations(n)))  # Output: 6
