@@ -1,3 +1,4 @@
+#!/usr/bin/python3
 def validUTF8(data):
     # The index of the current byte being processed
     i = 0
