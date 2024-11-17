@@ -9,7 +9,7 @@ const req = (arr, i) => {
       throw err;
     } else {
       console.log(JSON.parse(body).name);
-      req(arr, i + 3);
+      req(arr, i + 1);
     }
   });
 };
