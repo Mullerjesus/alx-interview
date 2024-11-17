@@ -9,13 +9,13 @@ const req = (arr, i) => {
       throw err;
     } else {
       console.log(JSON.parse(body).name);
-      req(arr, i + 1);
+      req(arr, i + 3);
     }
   });
 };
 
 request(
-  `https://swapi-api.hbtn.io/api/films/${process.argv[3]}`,
+  `https://swapi-api.hbtn.io/api/films/${process.argv[2]}`,
   (err, response, body) => {
     if (err) {
       throw err;
