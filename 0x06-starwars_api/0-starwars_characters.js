@@ -1,19 +1,18 @@
-#!/usr/bin/node  
+#!/usr/bin/env node  
 
-const request = require('request');  
+const axios = require('axios');  
 
 // Recursive function to fetch character names from their URLs  
-const req = (arr, i) => {  
-    if (i >= arr.length) return; // Base case for recursion  
-    request(arr[i], (err, response, body) => {  
-        if (err) {  
-            console.error('Error fetching character data:', err);  
-            return; // Exit on error  
-        }  
-        const characterData = JSON.parse(body);  
-        console.log(characterData.name); // Print character name  
-        req(arr, i + 1); // Recur for next character  
-    });  
+const fetchCharacterNames = async (urls, index) => {  
+    if (index >= urls.length) return; // Base case for recursion  
+
+    try {  
+        const response = await axios.get(urls[index]);  
+        console.log(response.data.name); // Print character name  
+        await fetchCharacterNames(urls, index + 1); // Recur for the next character  
+    } catch (error) {  
+        console.error('Error fetching character data:', error.message);  
+    }  
 };  
 
 // Check for a valid movie ID  
@@ -24,15 +23,12 @@ if (!movieId || isNaN(movieId)) {
 }  
 
 // Fetch film data to get character URLs  
-request(  
-    `https://swapi-api.hbtn.io/api/films/${movieId}`,  
-    (err, response, body) => {  
-        if (err) {  
-            console.error('Error fetching film data:', err);  
-            return; // Exit on error  
-        }  
-        const filmData = JSON.parse(body);  
-        const chars = filmData.characters; // Extract character URLs  
-        req(chars, 0); // Start fetching character names  
-    }  
-);
+axios.get(`https://swapi-api.hbtn.io/api/films/${movieId}`)  
+    .then(response => {  
+        const characters = response.data.characters; // Extract character URLs  
+        return fetchCharacterNames(characters, 0); // Start fetching character names  
+    })  
+    .catch(error => {  
+        console.error('Error fetching film data:', error.message);  
+        process.exit(1); // Exit on error  
+    });
