@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/c/Users/muluk/AppData/Local/Programs/Python/Python312/python
 """
 Task 1
 """
