@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Optional Task 1
+Task 1
 """
 import sys
 
