@@ -1,39 +1,30 @@
 #!/usr/bin/python3
-"""0x0A. Prime Game"""
-
-
-def SieveOfEratosthenes(n):
-    """returns a list of all prime numbers until n"""
-    prime = [True for i in range(n+1)]
-    p = 2
-    while (p * p <= n):
-        if (prime[p]):
-            for i in range(p * p, n+1, p):
-                prime[i] = False
-        p += 1
-    arr = []
-    for p in range(2, n+1):
-        if prime[p]:
-            arr.append(p)
-    return arr
+""" 0x0A. Prime Game """
 
 
 def isWinner(x, nums):
-    """0. Prime Game"""
-    res = {'Maria': 0, 'Ben': 0}
-    for n in nums:
-        if n == 1:
-            res['Ben'] += 1
-            continue
-        primes = SieveOfEratosthenes(n)
-        if len(primes) % 2 == 0:
-            res['Ben'] += 1
-        else:
-            res['Maria'] += 1
-
-    if res['Ben'] > res['Maria']:
-        return 'Ben'
-    elif res['Ben'] < res['Maria']:
-        return 'Maria'
-    else:
+    """Prime game - determin winner """
+    if x < 1 or not nums:
         return None
+
+    m_wins = 0
+    b_wins = 0
+
+    n = max(nums)
+    primes = [True] * (n + 1)
+    primes[0] = primes[1] = False
+
+    for x in range(2, int(n**0.5) + 1):
+        if primes[x]:
+            for y in range(x**2, n + 1, x):
+                primes[y] = False
+
+    for n in nums:
+        count = sum(primes[2:n+1])
+        b_wins += count % 2 == 0
+        m_wins += count % 2 == 1
+
+    if m_wins == b_wins:
+        return None
+
+    return 'Maria' if m_wins > b_wins else 'Ben'
