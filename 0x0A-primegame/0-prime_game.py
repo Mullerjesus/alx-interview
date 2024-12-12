@@ -1,52 +1,39 @@
 #!/usr/bin/python3
-""" prime game interview question """
+"""0x0A. Prime Game"""
 
 
-def get_first_prime(values):
-    for i in values:
-        if isPrime(i):
-            return [v for v in values if v % i != 0]
-    return False
-
-
-def isPrime(x):
-    """ check if number is a prime number """
-    if x < 2 or x == 4:
-        return False
-    for i in range(2, x // 2):
-        if x % i == 0:
-            return False
-    return True
+def SieveOfEratosthenes(n):
+    """returns a list of all prime numbers until n"""
+    prime = [True for i in range(n+1)]
+    p = 2
+    while (p * p <= n):
+        if (prime[p]):
+            for i in range(p * p, n+1, p):
+                prime[i] = False
+        p += 1
+    arr = []
+    for p in range(2, n+1):
+        if prime[p]:
+            arr.append(p)
+    return arr
 
 
 def isWinner(x, nums):
-    """ return name of the player that won the most rounds """
-    if x != len(nums):
-        return None
-    M = {"Turn": True, "Score": 0}
-    B = {"Turn": False, "Score": 0}
-    round = 0
-    while (x):
-        B["Turn"] = False
-        M["Turn"] = True
-        if round >= len(nums):
-            round = 0
-        current = [x for x in range(1, nums[round] + 1)]
-        while(len(current) > 1):
-            if get_first_prime(current):
-                current = get_first_prime(current)
-                if M["Turn"]:
-                    M["Turn"] = False
-                    B["Turn"] = True
-                else:
-                    B["Turn"] = False
-                    M["Turn"] = True
-        if M["Turn"]:
-            B["Score"] += 1
+    """0. Prime Game"""
+    res = {'Maria': 0, 'Ben': 0}
+    for n in nums:
+        if n == 1:
+            res['Ben'] += 1
+            continue
+        primes = SieveOfEratosthenes(n)
+        if len(primes) % 2 == 0:
+            res['Ben'] += 1
         else:
-            M["Score"] += 1
-        round += 1
-        x -= 1
-    if B["Score"] < M["Score"]:
+            res['Maria'] += 1
+
+    if res['Ben'] > res['Maria']:
+        return 'Ben'
+    elif res['Ben'] < res['Maria']:
         return 'Maria'
-    return 'Ben'
+    else:
+        return None
