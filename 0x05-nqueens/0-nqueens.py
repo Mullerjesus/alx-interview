@@ -1,28 +1,46 @@
 #!/usr/bin/python3
+""" nqueens implementation module"""
 import sys
 
-def print_usage_and_exit():
-    print("Usage: nqueens N")
+
+def nqueens(n):
+    """returns the possible placements of the queens"""
+    if not n.isdigit():
+        print("N must be a number")
+        sys.exit(1)
+    n = int(n)
+    if n < 4:
+        print("N must be at least 4")
+        sys.exit(1)
+
+    def solve(queens, difference, add):
+        """applies the backtracking algorithm recursively and generates
+            possible possitons
+        """
+        p = len(queens)
+        if p == n:
+            result.append(queens)
+            return
+
+        for q in range(n):
+            if q not in queens and p-q not in difference and p+q not in add:
+                solve(queens+[q], difference+[p-q], add+[p+q])
+
+    result = []
+    solve([], [], [])
+
+    return result
+
+
+if len(sys.argv) != 2:
+    print("Usage:  nqueens N")
     sys.exit(1)
-
-def print_error_and_exit(message):
-    print(message)
-    sys.exit(1)
-
-if __name__ == "__main__":
-    # Check the number of arguments
-    if len(sys.argv) != 2:
-        print_usage_and_exit()
-
-    # Validate the argument is an integer
-    try:
-        N = int(sys.argv[1])
-    except ValueError:
-        print_error_and_exit("N must be a number")
-
-    # Validate N is at least 4
-    if N < 4:
-        print_error_and_exit("N must be at least 4")
-
-    # (Placeholder for your N-Queens solution implementation)
-    print("N Queens Problem Solver")
+result = [solution for solution in nqueens(sys.argv[1])]
+rs = []
+for j in result:
+    temp = []
+    for i in range(len(j)):
+        temp.append([i, j[i]])
+    rs.append(temp)
+for r in rs:
+    print(r)
